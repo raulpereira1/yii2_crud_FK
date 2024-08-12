@@ -25,3 +25,33 @@ use app\models\ModalidadeModel;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$this->registerJs("
+
+$(document).ready(function (){
+    let type;
+    let type2;
+     console.log(type);
+     console.log(type2);
+        $('tipo_esporte').on('change',function (){
+            type = $(this).val();
+            if (type != 1){
+                type2 = tipo_esporte;
+                console.log('to funcionando');
+        }else{
+                type = tipo_esporte;
+         }
+            console.log(type);
+            console.log(type2);
+
+        })
+
+    })
+    ")
+?>
+<script>
+
+
+
+</script>

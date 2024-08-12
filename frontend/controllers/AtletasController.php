@@ -4,6 +4,11 @@ namespace frontend\controllers;
 
 use app\models\AtletasModel;
 use app\models\AtletasSearch;
+use app\models\EsporteModel;
+use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,6 +21,20 @@ class AtletasController extends Controller
     /**
      * @inheritDoc
      */
+
+
+    public function actionGetEsportes($modalidade_id)
+    {
+        $esporte = EsporteModel::find()->where(['tipo' => $modalidade_id])->all();
+        if (!empty($esporte)) {
+            foreach ($esporte as $esporte) {
+                echo "<option value='" . $esporte->id . "'>" . $esporte->nome . "</option>";
+            }
+        } else {
+            echo "<option>- Nenhum esporte encontrado -</option>";
+        }
+    }
+
     public function behaviors()
     {
         return array_merge(
@@ -38,6 +57,8 @@ class AtletasController extends Controller
      */
     public function actionIndex()
     {
+
+
         $searchModel = new AtletasSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -48,6 +69,7 @@ class AtletasController extends Controller
 
 
         ]);
+
     }
 
     /**
@@ -70,6 +92,7 @@ class AtletasController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new AtletasModel();
 
         if ($this->request->isPost) {
@@ -79,9 +102,12 @@ class AtletasController extends Controller
         } else {
             $model->loadDefaultValues();
         }
-
+        $esporteTipo1 = EsporteModel::find()->where(['tipo' => 1])->all();
+        $esporteTipo2 = EsporteModel::find()->where(['tipo' => 2])->all();
         return $this->render('create', [
             'model' => $model,
+            'esporteTipo1' => $esporteTipo1,
+            'esporteTipo2' => $esporteTipo2,
         ]);
     }
 

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "esporte".
@@ -15,6 +17,7 @@ use Yii;
  */
 class EsporteModel extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */

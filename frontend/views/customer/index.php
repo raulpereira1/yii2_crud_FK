@@ -1,14 +1,15 @@
 <?php
-
-use frontend\models\Customer;
+use \app\models\EsporteModel;
 use yii\helpers\ArrayHelper;
 
-$atletas = Customer::find()->all();
+$esporte = ArrayHelper::map(EsporteModel::find()->all(),'id','nome_esporte');
 echo '<pre>';
-print_r($atletas);
+print_r($esporte);
+
+$id = 3;
+if($id === 3){
+    return print_r('voce escolheu o futebol');
+}
 ?>
+ola mundo
 
-
-
-
-<h1>Ola mundo</h1>

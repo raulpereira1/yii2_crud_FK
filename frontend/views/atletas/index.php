@@ -1,6 +1,7 @@
 <?php
 
 use app\models\AtletasModel;
+use app\models\EsporteModel;
 use app\models\pais\PaisModel;
 use frontend\models\Customer;
 use yii\helpers\ArrayHelper;
@@ -12,9 +13,12 @@ use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 /** @var app\models\AtletasSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var frontend\controllers\AtletasController $esporteTipo1 */
+/** @var frontend\controllers\AtletasController $esporteTipo2 */
 
 $this->title = 'Atletas Models';
 $this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 <div class="atletas-model-index">
@@ -33,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'nome',
             [
@@ -61,6 +64,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?php Pjax::end(); ?>
 
 </div>

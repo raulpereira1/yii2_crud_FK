@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $tipo_esporte
  *
- * @property Atletas[] $atletas
+ * @property AtletasModel[] $atletas
  */
 class ModalidadeModel extends \yii\db\ActiveRecord
 {
@@ -51,6 +51,6 @@ class ModalidadeModel extends \yii\db\ActiveRecord
      */
     public function getAtletas()
     {
-        return $this->hasMany(Atletas::class, ['id_modalidade' => 'id']);
+        return $this->hasMany(AtletasModel::class, ['id_modalidade' => 'id']);
     }
 }

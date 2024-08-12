@@ -5,6 +5,8 @@ namespace app\models;
 use app\models\pais\PaisModel;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use app\models\EsporteModel;
 
 /**
  * This is the model class for table "atletas".
@@ -24,6 +26,7 @@ class AtletasModel extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
     public static function tableName()
     {
         return 'atletas';
