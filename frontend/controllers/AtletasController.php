@@ -128,8 +128,18 @@ class AtletasController extends Controller
 
         $post = Yii::$app->getRequest()->post();
         $model = $this->findModel($id);
+        $fotoAtual = $model->foto_atleta;
+
         if($model->load($post) && $model->validate()) {
-            $model->atleta_foto = UploadedFile::getInstance($model, 'foto_atleta');
+            $novaFoto = uploadedFile::getInstance($model, 'foto_atleta');
+
+
+            if ($novaFoto) {
+                    $model->foto_atleta = $novaFoto->name;
+                    $model->uploadAndSave();
+                    }else{
+                            $model->foto_atleta = $fotoAtual;
+                    }
 
             if ($model->uploadAndSave()) {
                 return $this->redirect(['view', 'id' => $model->id]);
