@@ -2,10 +2,12 @@
 
 namespace frontend\controllers;
 
+use app\models\AtletasModel;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -73,9 +75,19 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+
+
     public function actionIndex()
     {
-        return $this->render('index');
+        $provider = new ActiveDataProvider([
+           'query' => AtletasModel::find(),
+            'pagination' => [
+                'pageSize' => 5,
+            ]
+        ]);
+        return $this->render('index',[
+            'provider' => $provider,
+        ]);
     }
 
     /**

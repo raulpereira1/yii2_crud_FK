@@ -32,6 +32,7 @@ use yii\widgets\Pjax;
 
 
 
+
     <?=  $form->field($model, 'id_modalidade')->dropDownList
     (ArrayHelper::map(ModalidadeModel::find()->all(),'id','tipo_esporte'),
                                        ['prompt'=>'Selecione um Modalidade','id'=>'modalidade-dropdown']
@@ -54,7 +55,7 @@ use yii\widgets\Pjax;
                                 ['prompt'=>'Selecione um Pais','id'=>'id_pais']
     )?>
 
-
+    <?= $form->field($model,'foto_atleta')->fileInput()?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

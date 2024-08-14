@@ -1,0 +1,28 @@
+.Atleta_box{
+    border: solid 1px #c0c2ce;
+    border-radius: 20px;
+    box-shadow:	#c0c2ce 2px 2px 2px ;
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+    background-color:	#afafaf ;
+    color: #2c2f33;
+    width: 500px;
+    height: 400px;
+}
+.Atleta_Split{
+    border: solid 2px #c0c2ce;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    height: 50px;
+    width: 400px;
+    margin: 5px;
+    text-align: left;
+    background-color: 	#afafaf;
+}
+
+.Atleta_Split:hover{
+    background-color: 	#f8f8fa;
+    border: solid 1px #2c2f33;
+    box-shadow: #2c2f33 -1px 1px;
+}
