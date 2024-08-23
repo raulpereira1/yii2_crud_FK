@@ -75,7 +75,7 @@ $script = <<< JS
 
     $('#modalidade-dropdown').change(function() {
         var modalidadeId = $(this).val();
-        var esportes = modalidadeId == 1 ? esporteTipo1 : esporteTipo2;
+        var esportes = modalidadeId === 1 ? esporteTipo1 : esporteTipo2;
 
         $('#esporte-dropdown').empty();
         $.each(esportes, function(id, nome) {

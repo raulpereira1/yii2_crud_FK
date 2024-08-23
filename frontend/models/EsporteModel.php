@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\pessoas\PessoaEsporte;
+use app\models\pessoas\PessoasModel;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -13,7 +15,7 @@ use yii\helpers\Html;
  * @property string $nome_esporte
  * @property int|null $tipo
  *
- * @property Atletas[] $atletas
+ * @property AtletasModel[] $atletas
  */
 class EsporteModel extends \yii\db\ActiveRecord
 {
@@ -59,4 +61,15 @@ class EsporteModel extends \yii\db\ActiveRecord
     {
         return $this->hasMany(AtletasModel::class, ['id_esporte' => 'id']);
     }
+    public function getPessoas(){
+        return $this->hasMany(PessoasModel::class, ['id' => 'id_pessoa'])
+            ->viaTable('pessoa_esporte', ['id_esporte' => 'id']);
+    }
+
+    public function  getPessoaEsporte()
+    {
+        return $this->hasMany(PessoaEsporte::class,['id_esporte' => 'id']);
+
+    }
 }
+
