@@ -5,6 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\pessoas\PessoasModel $model */
 /** @var  frontend\controllers\PessoasController $esporteSelecionado */
+/* @var app\models\pessoaendereco\PessoaEndereco $modelEndereco */
+
 
 $this->title = 'Update Pessoas Model: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Pessoas Models', 'url' => ['index']];
@@ -17,7 +19,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-
+        'modelEndereco' => $modelEndereco,
     ]) ?>
 
 </div>

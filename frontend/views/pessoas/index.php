@@ -1,5 +1,6 @@
 <?php
 
+use app\models\pessoas\Cargo;
 use app\models\pessoas\PessoaEsporte;
 use app\models\pessoas\PessoasModel;
 use yii\helpers\ArrayHelper;
@@ -7,10 +8,15 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
+use frontend\webservice\ViaCEP;
+
 /** @var yii\web\View $this */
 /** @var app\models\PessoasSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var yii\widgets\ActiveForm $form */
+/** @var app\models\pessoas\PessoasModel $model */
 
 $this->title = 'Pessoas Models';
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,8 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nome',
             'data_nascimento',
-            'id_cargo',
-            'esporte',
+            ['attribute' => 'cargo.nome_cargo', 'label' => 'Cargo'],
+            ['attribute' => 'esportes', 'label' => 'Esportes', 'value' => function ($model) {return implode(', ', array_column($model->esportes, 'nome_esporte'));},],
+            ['attribute' => 'pessoaEndereco.logradouro', 'label' => 'Logradouro',],
+            ['attribute' => 'pessoaEndereco.cidade', 'label' => 'Cidade',],
+            ['attribute' => 'pessoaEndereco.estado', 'label' => 'Estado',],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, PessoasModel $model, $key, $index, $column) {
@@ -49,17 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
-
-<?php foreach ($pessoas as $pessoa):?>
-    <div>
-        <h5><?=$pessoa->nome ?>(IDADE:<?= $pessoa->data_nascimento?>)</h5>
-        <p>Cargo: <?= $pessoa->cargo->nome_cargo?></p>
-
-        <p>Esportes:</p>
-        <ul>
-            <?php foreach ($pessoa->esportes as $esporte): ?>
-                <li><?= $esporte->nome_esporte ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endforeach; ?>
+<!---->
+<!--    --><?php //foreach ($pessoas as $pessoa):?>
+<!--        <div>-->
+<!--            <h5>--><?php //=$pessoa->nome ?><!--(IDADE:--><?php //= $pessoa->data_nascimento?><!--)</h5>-->
+<!--            <p>Cargo: --><?php //= $pessoa->cargo->nome_cargo?><!--</p>-->
+<!---->
+<!--            <p>Esportes:</p>-->
+<!--            <ul>-->
+<!--                --><?php //foreach ($pessoa->esportes as $esporte): ?>
+<!--                    <li>--><?php //= $esporte->nome_esporte ?><!--</li>-->
+<!--                --><?php //endforeach; ?>
+<!--            </ul>-->
+<!--        </div>-->
+<!--    --><?php //endforeach; ?>
+<!---->
+<!---->

@@ -3,6 +3,7 @@
 namespace app\models\pessoas;
 
 use app\models\EsporteModel;
+use app\models\pessoaendereco\PessoaEndereco;
 use Yii;
 
 /**
@@ -51,6 +52,7 @@ class PessoasModel extends \yii\db\ActiveRecord
             'nome' => 'Nome',
             'data_nascimento' => 'data_nascimento',
             'id_cargo' => 'Id Cargo',
+            'esporte' => 'Esporte'
         ];
     }
     public function SalvarEsportes($pessoaId, $esportes)
@@ -108,6 +110,10 @@ class PessoasModel extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PessoaEsporte::class, ['id_pessoa' => 'id']);
     }
+    public function getPessoaEndereco()
+    {
+        return $this->hasOne(PessoaEndereco::class, ['id_pessoa' => 'id']);
 
+    }
 
 }

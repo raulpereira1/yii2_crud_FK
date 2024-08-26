@@ -30,27 +30,3 @@ $this->title = 'Atletas';
         'pagination' => $provider->getPagination(),
 ])?>
 </div>
-<div>
-    <?php
-    $atleta1 = ArrayHelper::map(\app\models\pessoas\PessoaEsporte::find()->with('esporte')->asArray()->all(),'id_esporte','id_esporte');
-    $atleta2 = ArrayHelper::map(\app\models\pessoas\PessoaEsporte::find()->with('pessoa')->asArray()->all(),'id_pessoa','nome');
-
-    echo '<pre>';
-    print_r($atleta1);
-    print_r($atleta2);
-    ?>
-    <form action="PessoaEsporteController.php" method="post">
-        <B>Escolha os numeros de sua preferência:</B><br>
-        <input type=checkbox name="id_esporte[]" value=1> 1<br>
-        <input type=checkbox name="numeros[]" value=100> 100<br>
-        <input type=checkbox name="numeros[]" value=1000> 1000<br>
-        <input type=checkbox name="numeros[]" value=10000> 10000<br>
-        <input type=checkbox name="numeros[]" value=90> 90<br>
-        <input type=checkbox name="numeros[]" value=50> 50<br>
-        <input type=checkbox name="numeros[]" value=30> 30<br>
-        <input type=checkbox name="numeros[]" value=15> 15<br><BR>
-        <input type=checkbox name="news" value=1> <B>Receber
-            Newsletter?</B><br><BR>
-        <input type=submit>
-    </form>
-</div>
