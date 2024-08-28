@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /** @var PessoasModel SalvarEsportes */
 /**
@@ -76,38 +77,56 @@ class PessoasController extends Controller
      * Creates a new PessoasModel model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
-     */public function actionCreate()
+     */
+    public function actionCreate()
 {
-    $model = new PessoasModel(); // carrega o PessoasModel e armazena na variavel $model
-    $modelEndereco = new PessoaEndereco(); // carrega o PessoaEndereco e armazena na variavel $modelEndereco
-    $post = Yii::$app->request->post(); // carrega as informações via metodo post
-    if ($model->load($post) && $model->save()) { // carrega e salva o model
-        $esportes = $post['PessoasModel']['esportes']; // $esportes recebe o que o model Pessoas está recebendo via função getEsportes que conecta com a tabela pessoa_esporte do banco.
-        foreach ($esportes as $esporteId) { // laço de repetição
-            $pessoaEsporte = new PessoaEsporte(); // variavel $pessoaEsporte recebe um novo PessoaEsporteModel
-            $pessoaEsporte->id_pessoa = $model->id; // concatena o pessoa esporte->id_pessoa com o id dentro do $model
-            $pessoaEsporte->id_esporte = $esporteId;  // concatena o pessoaEsporte->idEsporte com o esporte do foreach que foi atribuido o $esportes da relação do banco
-            $pessoaEsporte->save(); // salva
-        }
-        if ($modelEndereco->load($post)) {
-            $modelEndereco->id_pessoa = $model->id;
+    $model = new PessoasModel(); // carrega o PessoasModel e armazena na variável $model
+    $modelEndereco = new PessoaEndereco(); // carrega o PessoaEndereco e armazena na variável $modelEndereco
 
-            if ($modelEndereco->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                Yii::$app->session->setFlash('error', 'Erro ao salvar endereço');
+    $post = Yii::$app->request->post(); // carrega as informações via método POST
+
+    // Carregar os dados do POST no model antes de processar o upload da imagem
+    if ($model->load($post) && $model->validate()) {
+        // Manipular upload da imagem
+        $model->pessoa_foto = UploadedFile::getInstance($model, 'foto_pessoa');
+
+        if ($model->pessoa_foto) {
+            $uploadPath = Yii::getAlias('@frontend/web/files/') . $model->pessoa_foto->name;
+
+            if ($model->pessoa_foto->saveAs($uploadPath)) {
+                $model->foto_pessoa = $model->pessoa_foto->name;  // Armazena o nome da imagem no banco de dados
+            }
+        }
+
+        // Salvar o model da pessoa após upload da imagem
+        if ($model->save(false)) {
+            // Salvar os esportes associados
+            $esportes = $post['PessoasModel']['esportes']; // $esportes recebe os esportes selecionados
+            foreach ($esportes as $esporteId) {
+                $pessoaEsporte = new PessoaEsporte();
+                $pessoaEsporte->id_pessoa = $model->id;
+                $pessoaEsporte->id_esporte = $esporteId;
+                $pessoaEsporte->save();
+            }
+
+            // Salvar o endereço associado
+            if ($modelEndereco->load($post)) {
+                $modelEndereco->id_pessoa = $model->id;
+                if ($modelEndereco->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Erro ao salvar endereço');
+                }
             }
         }
     }
+
+    // Renderizar a view com os models
     return $this->render('create', [
         'model' => $model,
         'modelEndereco' => $modelEndereco,
     ]);
 }
-
-
-
-
     /**
      * Updates an existing PessoasModel model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -122,15 +141,36 @@ class PessoasController extends Controller
         $post = Yii::$app->request->post();
 
         if ($model->load($post) && $model->validate()) {
-            if ($modelEndereco->load($post)) {
-                $modelEndereco->id_pessoa = $model->id;
-                if ($model->save() && $modelEndereco->save()) { // se tudo for carregado certo, salva a pessoa e o endereço
-                    $postData = Yii::$app->request->post(); // a partir daqui é o salvamento dos esportes
-                    $model->salvarEsportes($model->id, $postData['PessoasModel']['esportes']);
+            // Manipular upload da imagem
+            $model->pessoa_foto = UploadedFile::getInstance($model, 'foto_pessoa');
 
-                    return $this->redirect(['view', 'id' => $model->id]);
-                } else {
-                    Yii::$app->session->setFlash('error', 'Erro ao salvar pessoa ou endereço.'); // o setFlash funciona como um "alert", para exibir uma mensagem e nesse caso ele está setado para mostrar se ocorrer algum erro
+            if ($model->pessoa_foto) {
+                $uploadPath = Yii::getAlias('@frontend/web/files/') . $model->pessoa_foto->name;
+
+                if ($model->pessoa_foto->saveAs($uploadPath)) {
+                    $model->foto_pessoa = $model->pessoa_foto->name;  // Armazena o nome da imagem no banco de dados
+                }
+            }
+
+            // Salvar o model da pessoa após upload da imagem
+            if ($model->save(false)) {
+                // Salvar os esportes associados
+                $esportes = $post['PessoasModel']['esportes']; // $esportes recebe os esportes selecionados
+                foreach ($esportes as $esporteId) {
+                    $pessoaEsporte = new PessoaEsporte();
+                    $pessoaEsporte->id_pessoa = $model->id;
+                    $pessoaEsporte->id_esporte = $esporteId;
+                    $pessoaEsporte->save();
+                }
+
+                // Salvar o endereço associado
+                if ($modelEndereco->load($post)) {
+                    $modelEndereco->id_pessoa = $model->id;
+                    if ($modelEndereco->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        Yii::$app->session->setFlash('error', 'Erro ao salvar endereço');
+                    }
                 }
             }
         }
@@ -148,16 +188,22 @@ class PessoasController extends Controller
      */
     public function actionDelete($id)
     {
-        //rodar um foreach para apagar o relacionamento antes
-        foreach ($this->findModel($id)->pessoaEsportes as $pessoaEsporte) {
-            $pessoaEsporte->delete();
-        }
-        foreach ($this->findModel($id)->pessoaEndereco as $pessoaEndereco) {
-            $pessoaEndereco->delete();
-        }
+        // necessário mudar a logica pois estava puxando o dado int e não um objeto.
+        // agora o model está garantindo que vai ser do tipo objeto para ser tratado e deletado
+        $model = $this->findModel($id);
+        // loop para garantir que o objeto não estará vazio
+        if ($model !== null) {
+            // logica para deletar da tabela esporte
+            foreach ($model->pessoaEsportes as $pessoaEsporte) {
+                $pessoaEsporte->delete();
+            }
+            // logica para deletar da tabela pessoa_endereco
+            if ($model->pessoaEndereco) {
+                $model->pessoaEndereco->delete();
+            }
 
-
-        $this->findModel($id)->delete();
+            // deletar da tabela pessoas
+            $model->delete();}
 
         return $this->redirect(['index']);
     }

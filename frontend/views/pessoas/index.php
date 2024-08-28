@@ -38,14 +38,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            [
+                'attribute' => 'foto_pessoa',
+                'label' => 'Foto',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::img(Url::to('@web/files/' . $model->foto_pessoa), ['alt' => $model->nome, 'style' => 'width: 80px;']);
+                },
+            ],
+
             'nome',
-            'data_nascimento',
+
+            [
+                'label' => 'Idade',
+                'value' => function ($model) {
+                    return $model->getIdade() . ' anos';
+                }
+            ],
             ['attribute' => 'cargo.nome_cargo', 'label' => 'Cargo'],
             ['attribute' => 'esportes', 'label' => 'Esportes', 'value' => function ($model) {return implode(', ', array_column($model->esportes, 'nome_esporte'));},],
             ['attribute' => 'pessoaEndereco.logradouro', 'label' => 'Logradouro',],
             ['attribute' => 'pessoaEndereco.cidade', 'label' => 'Cidade',],
             ['attribute' => 'pessoaEndereco.estado', 'label' => 'Estado',],
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, PessoasModel $model, $key, $index, $column) {
@@ -53,7 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
                  }
             ],
         ],
-    ]); ?>
+    ]);
+    ?>
 
     <?php Pjax::end(); ?>
 
@@ -74,3 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--    --><?php //endforeach; ?>
 <!---->
 <!---->
+<?php
+
+?>

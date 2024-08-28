@@ -22,11 +22,15 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'data_nascimento')->input('date', ['id' => 'data_nascimento']) ?>
 
 
-    <?= $form->field($model, 'id_cargo')->radioList(ArrayHelper::map(Cargo::find()->all(),'id','nome_cargo'))?>
+    <?= $form->field($model, 'id_cargo')->dropDownList(ArrayHelper::map(Cargo::find()->all(),'id','nome_cargo'))?>
     <div class="esporte_check">
     <?= $form->field($model, 'esportes')->checkboxList(
         ArrayHelper::map(EsporteModel::find()->all(), 'id', 'nome_esporte')
     ) ?>
+    <br>
+
+    <?= $form->field($model,'foto_pessoa')->fileInput()?>
+        <br>
 </div>
 
 
@@ -38,6 +42,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($modelEndereco, 'cep')->textInput(['id' => 'cep-input']) ?><br>
 
         <?= Html::button('Consultar', ['id' => 'consultar-cep-btn', 'class' => 'btn btn-primary']) ?>
+        <p> <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sei meu CEP</a>.</p>
 
         <?= $form->field($modelEndereco, 'logradouro')->textInput(['maxlength' => true, 'id' => 'logradouro-input']) ?>
 
@@ -46,6 +51,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($modelEndereco, 'estado')->textInput(['maxlength' => true, 'id' => 'estado-input']) ?>
 
         <?= $form->field($modelEndereco, 'numero')->textInput() ?>
+        <br>
 
         <div class="form-group">
             <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>

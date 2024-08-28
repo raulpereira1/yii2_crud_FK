@@ -53,6 +53,6 @@ class PessoaEndereco extends \yii\db\ActiveRecord
         ];
     }
     public function getPessoa(){
-        return $this->hasOne(PessoasModel::class,['id'=>'pessoa']);
+        return $this->hasMany(PessoasModel::class,['id'=>'pessoa']);
     }
 }

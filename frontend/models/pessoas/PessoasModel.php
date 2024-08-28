@@ -5,6 +5,8 @@ namespace app\models\pessoas;
 use app\models\EsporteModel;
 use app\models\pessoaendereco\PessoaEndereco;
 use Yii;
+use yii\web\UploadedFile;
+use frontend\controllers\UploadController;
 
 /**
  * This is the model class for table "pessoa".
@@ -13,13 +15,15 @@ use Yii;
  * @property string $nome
  * @property int $data_nascimento
  * @property int $id_cargo
- *
+ * @property string $foto_pessoa
  * @property Cargo $cargo
  * @property EsporteModel[] $esportes
  * @property pessoaEsporte $pessoaEsporte
  */
 class PessoasModel extends \yii\db\ActiveRecord
 {
+    /** @var UploadedFile     */
+    public $pessoa_foto;
     /**
      * {@inheritdoc}
      */
@@ -36,6 +40,8 @@ class PessoasModel extends \yii\db\ActiveRecord
         return [
             [['nome', 'data_nascimento', 'id_cargo'], 'required'],
             [[ 'id_cargo'], 'integer'],
+            [['foto_pessoa'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+
             [['nome','data_nascimento'], 'string', 'max' => 50],
             [['id_cargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::class, 'targetAttribute' => ['id_cargo' => 'id']],
             [['esporte'],'safe']
@@ -115,5 +121,28 @@ class PessoasModel extends \yii\db\ActiveRecord
         return $this->hasOne(PessoaEndereco::class, ['id_pessoa' => 'id']);
 
     }
+    public function uploadAndSave()
+    {
+        if ($this->validate()) {
+            if ($this->foto_pessoa) {
+                $uploadPath = Yii::getAlias('@frontend/web/files').'/'. $this->pessoa_foto->name;
+                if ($this->pessoa_foto->saveAs($uploadPath)) {
+                    $this->foto_pessoa = $this->pessoa_foto->baseName.'.'.$this->pessoa_foto->extension;
+                }
 
+            }
+            return $this->save(false);
+
+
+        }
+        return false;
+    }
+    public function getIdade()
+    {
+        $dataDeNascimento = new \DateTime($this->data_nascimento);
+        $hoje = new \DateTime();
+        $idade = $hoje->diff($dataDeNascimento);
+        return $idade->y;
+
+    }
 }

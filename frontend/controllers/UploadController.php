@@ -6,6 +6,7 @@ use app\models\AtletasModel;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
+use app\models\pessoas\PessoasModel;
 
 class UploadController extends Controller
 {
@@ -15,14 +16,14 @@ class UploadController extends Controller
         $model = new AtletasModel();
 
         if ($model->load($post) && $model->validate()) {
-            $model->atleta_foto = UploadedFile::getInstance($model, 'foto_atleta');
+            $model->foto_pessoa = UploadedFile::getInstance($model, 'foto_pessoa');
 
-            $model->foto_atleta = $model->atleta_foto->name;
+            $model->pessoa_foto = $model->foto_pessoa->nome;
             $model->save();
 
-            $uploadPath = Yii::getAlias('@frontend/web/files');
+            $uploadPath = Yii::getAlias('@frontend/web/files/');
 
-            $model->atleta_foto->saveAs($uploadPath . '/' . $model->foto_atleta);
+            $model->foto_pessoa->saveAs($uploadPath . '/' . $model->foto_pessoa);
 
         }
     }
