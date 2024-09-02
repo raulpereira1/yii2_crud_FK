@@ -30,11 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'nome_torneio',
-            'modalidade_torneio',
-            'esporte_torneio',
-            'ativo_torneio',
+            ['attribute' => 'esporteTorneio.nome_esporte', 'label' => 'Esporte do Torneio',],
+            ['attribute'=> 'modalidadeTorneio.tipo_esporte' ,'label' => 'Modalidade do Torneio',],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, TorneioModel $model, $key, $index, $column) {

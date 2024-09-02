@@ -38,6 +38,10 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label'=> 'Pessoas', 'url' => ['/pessoas/index']],
+        ['label' => 'Esporte', 'url' => ['/esporte/index']],
+        ['label'=> 'Torneio', 'url' => ['/torneio/index']],
+        ['label'=> 'Atletas', 'url' => ['/atletas/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

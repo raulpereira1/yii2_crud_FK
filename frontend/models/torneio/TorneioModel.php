@@ -87,4 +87,7 @@ class TorneioModel extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ModalidadeModel::class, ['id' => 'modalidade_torneio']);
     }
+    public function getAtivo(){
+        return $this->hasone(AtivoModel::class, ['id' => 'ativo_torneio']);
+    }
 }

@@ -3,6 +3,9 @@
 namespace frontend\controllers;
 
 use app\models\AtletasModel;
+use app\models\EsporteModel;
+use app\models\pessoas\PessoasModel;
+use app\models\torneio\TorneioModel;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -79,6 +82,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $pessoas = PessoasModel::find()->all();
+        $torneios = TorneioModel::find()->all();
+        $esportes = EsporteModel::find()->all();
         $provider = new ActiveDataProvider([
            'query' => AtletasModel::find(),
             'pagination' => [
@@ -87,6 +93,9 @@ class SiteController extends Controller
         ]);
         return $this->render('index',[
             'provider' => $provider,
+            'pessoas' => $pessoas,
+            'torneios' => $torneios,
+            'esportes' => $esportes,
         ]);
     }
 

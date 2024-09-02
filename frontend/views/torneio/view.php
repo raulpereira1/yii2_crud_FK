@@ -29,11 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'nome_torneio',
-            'modalidade_torneio',
-            'esporte_torneio',
-            'ativo_torneio',
+            ['attribute'=> 'esporteTorneio.nome_esporte' ,'label' => 'Esporte do Torneio',],
+            ['attribute'=> 'modalidadeTorneio.tipo_esporte' ,'label' => 'Modalidade do Torneio',],
+            ['attribute'=> 'ativo.desc_ativo' ,'label' => 'Inscrições',],
+
+            [
+                'attribute' => 'Atletas',
+                'value' => function ($model) {
+                    $atletas = array_map(function($atleta) {
+                        return $atleta->nome; // supondo que o atributo seja 'nome_atleta'
+                    }, $model->atletas);
+
+                    return implode(', ', $atletas); // Lista todos os atletas separados por vírgula
+                },
+            ],
+
         ],
     ]) ?>
 

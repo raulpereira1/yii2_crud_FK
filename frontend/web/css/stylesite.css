@@ -1,0 +1,85 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+
+}
+.carousel-item{
+    max-width: 100vw; /* 100% da largura da viewport */
+    max-height: 100vh; /* 100% da altura da viewport */
+    background-image: url('../cssFiles/background-carousel.jpg'); /* Caminho para a imagem */
+    background-size: cover;
+    background-position: center; /* Centraliza a imagem no elemento */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    margin: 10px;
+    color: #c0c2ce;
+    text-shadow: black 2px 2px 2px;
+
+}
+.news-item {
+    height: 150px; /* Ajuste a altura conforme necessário */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#newsCarousel{
+    border: solid 2px black;
+    width: auto;
+    height: auto;
+    position: static;
+}
+.pessoas-group{
+    border: solid 2px #2f85ac;
+    margin: 5px;
+    position: absolute;
+    top: 30%;
+    color: #b2b2b2;
+    background: 	#2f85ac;
+    left: 22%;
+
+}
+.pessoas-group h2{
+    text-shadow: black 2px 2px 2px;
+
+}
+
+.pessoas-group p {
+    text-align: center;
+    color: #c0c2ce;
+    box-shadow: black 2px 2px 2px;
+    margin: 6px;
+    padding: 5px;
+
+    background:#0c6a93;
+}
+.esportes-disponveis{
+    border: solid 2px #2f85ac;
+    margin: 5px;
+    position: absolute;
+    top: 30%;
+    color: #b2b2b2;
+    background:#2f85ac;
+    left: 65%;
+}
+.esportes-disponveis h4{
+    text-shadow: black 2px 2px 2px;
+}
+.esportes-disponveis li{
+    text-align: center;
+    color: #c0c2ce;
+    box-shadow: black 2px 2px 2px;
+    margin: 6px;
+    padding: 5px;
+
+    background:#0c6a93;
+}
+
+.cadastro-content{
+    border: solid 2px #113844;
+    box-shadow: #113844 2px 2px 2px;
+    margin: 5px;
+    position: absolute;
+    top: 80%;
+    color: #b2b2b2;
+    background:	#f0bd22;
+    left: 22%;
+}

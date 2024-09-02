@@ -42,6 +42,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($modelEndereco, 'cep')->textInput(['id' => 'cep-input']) ?><br>
 
         <?= Html::button('Consultar', ['id' => 'consultar-cep-btn', 'class' => 'btn btn-primary']) ?>
+
         <p> <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sei meu CEP</a>.</p>
 
         <?= $form->field($modelEndereco, 'logradouro')->textInput(['maxlength' => true, 'id' => 'logradouro-input']) ?>
@@ -50,7 +51,9 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($modelEndereco, 'estado')->textInput(['maxlength' => true, 'id' => 'estado-input']) ?>
 
-        <?= $form->field($modelEndereco, 'numero')->textInput() ?>
+
+        <?= $form->field($modelEndereco, 'numero')->textInput() ?><br>
+        <?= Html::button('Consultar Endereco', ['id' => 'consultar-endereco-btn', 'class' => 'btn btn-primary']) ?>
         <br>
 
         <div class="form-group">
@@ -63,7 +66,7 @@ use yii\widgets\ActiveForm;
 
     <?php
     $script = <<< JS
-$('#consultar-cep-btn').on('click', function() {
+    $('#consultar-cep-btn').on('click', function() {
     var cep = $('#cep-input').val();
     var url = 'https://viacep.com.br/ws/'+cep +'/json/';
     $.ajax({
@@ -83,9 +86,38 @@ $('#consultar-cep-btn').on('click', function() {
             alert('Erro ao consultar o CEP.');
         }
     });
-});
-JS;
+    });
 
+    // Lógica para consultar o endereço completo
+    $('#consultar-endereco-btn').on('click', function() {
+        var logradouro = $('#logradouro-input').val();
+        var cidade = $('#cidade-input').val();
+        var estado = $('#estado-input').val();
+
+        if (logradouro && cidade && estado) {
+            var url = 'https://viacep.com.br/ws/'+estado+'/'+cidade+'/'+logradouro+'/json/';
+
+            $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(data) {
+                if (data.length > 0) {
+                    $('#cep-input').val(data[0].cep); // Pega o primeiro resultado e coloca o CEP no campo
+                } else {
+                    alert('Endereço não encontrado.');
+                }
+            },
+            error: function() {
+                alert('Erro ao consultar o endereço.');
+            }
+        });
+    } else {
+            alert('Por favor, preencha logradouro, cidade e estado antes de consultar.');
+        }
+    });
+    JS;
+
+    $this->registerJs($script);
     $this->registerJs($script);
     ?>
 
